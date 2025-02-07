@@ -29,21 +29,20 @@ function renderCart() {
     display.innerHTML = "";
     cart.forEach((obj)=>{
         const li = document.createElement('li');
-        li.innerHTML = ${obj.name} - $${obj.price} <button class="remove-from-cart-btn" onclick="removeFromCart(${obj.id})" data-id="${obj.id}">Remove to Cart</button>;
+        li.innerHTML = `${obj.name} - $${obj.price} <button class="remove-from-cart-btn" onclick="removeFromCart(${obj.id})" data-id="${obj.id}">Remove to Cart</button>`;
         display.appendChild(li);
     }); 
 }
 
 // Add item to cart
 function addToCart(productId) {
-	let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     const product = products.find(product => product.id===productId);
     if(product){
         cart.push(product);
         sessionStorage.setItem('cart',JSON.stringify(cart));
     }
     renderCart();
-
 }
 
 // Remove item from cart
