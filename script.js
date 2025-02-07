@@ -22,16 +22,48 @@ function renderProducts() {
 }
 
 // Render cart list
-function renderCart() {}
+function renderCart() {
+	 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    
+    const display = document.getElementById('cart-list');
+    display.innerHTML = "";
+    cart.forEach((obj)=>{
+        const li = document.createElement('li');
+        li.innerHTML = ${obj.name} - $${obj.price} <button class="remove-from-cart-btn" onclick="removeFromCart(${obj.id})" data-id="${obj.id}">Remove to Cart</button>;
+        display.appendChild(li);
+    }); 
+}
 
 // Add item to cart
-function addToCart(productId) {}
+function addToCart(productId) {
+	let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const product = products.find(product => product.id===productId);
+    if(product){
+        cart.push(product);
+        sessionStorage.setItem('cart',JSON.stringify(cart));
+    }
+    renderCart();
+
+}
 
 // Remove item from cart
-function removeFromCart(productId) {}
+function removeFromCart(productId) {
+	let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    for(let i=0;i<cart.length;i++){
+        if(cart[i].id === productId){
+            cart.splice(i,1);
+            sessionStorage.setItem('cart',JSON.stringify(cart));
+            break;
+        }
+    }
+    renderCart();
+}
 
 // Clear cart
-function clearCart() {}
+function clearCart() {
+	sessionStorage.clear();
+    renderCart();
+}
 
 // Initial render
 renderProducts();
